@@ -12,11 +12,18 @@ const User = sequelize.define("User", {
   },
   org: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    references: {
+      model: "Organizations",
+      key: "id",
+    }
   },
   subscription_type: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
+    references: {
+      model: "Subscriptions",
+      key: "id",
+    }
   },
   subscription_date: {
     type: DataTypes.DATE,

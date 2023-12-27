@@ -1,8 +1,9 @@
-const express = require("express");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import express, {Request, Response, Express} from "express";
+import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
+import bodyParser from "body-parser";
+import passport from "passport";
 require("dotenv").config();
 require("./auth/passport");
 

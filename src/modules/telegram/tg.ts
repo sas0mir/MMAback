@@ -42,7 +42,7 @@ bot.on('text', async msg => {
     setTimeout(async () => {
 
         await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
-        await bot.sendMessage(msg.chat.id, msg.text);
+        await bot.sendMessage(msg.chat.id, msg.text || "empty message");
 
     }, 5000);
 
