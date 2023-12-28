@@ -1,5 +1,6 @@
 import { NextFunction } from "express";
 import { Request, Response, Express } from "express";
+import { HttpException } from "./helpers/constants";
 
 function notFound(req: Request, res: Response, next: NextFunction) {
     res.status(404);
@@ -12,10 +13,10 @@ function notFound(req: Request, res: Response, next: NextFunction) {
     /* eslint-enable no-unused-vars */
     const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
     const errMsg = err instanceof HttpException ? err.message : err instanceof Error && err.message ? err.message : 'todo some error';
-    res.status(statusCode);
+    res.status(err instanceof HttpException ? err.code : statusCode);
     res.json({
-      message: err.message || '',
-      stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack
+      message: errMsg,
+      stack: process.env.NODE_ENV === 'production' ? '🥞' : err instanceof Error ? err.stack : errMsg
     });
   }
   

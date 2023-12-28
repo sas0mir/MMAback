@@ -1,4 +1,4 @@
-const passport = require("passport");
+import passport from "passport";
 const passportJwt = require("passport-jwt");
 const ExtractJwt = passportJwt.ExtractJwt;
 const StrategyJwt = passportJwt.Strategy;
@@ -10,12 +10,12 @@ passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,
     },
-    function (jwtPayload, done) {
+    function (jwtPayload: any, done: any) {
       return User.findOne({ where: { id: jwtPayload.id } })
-        .then((user) => {
+        .then((user: any) => {
           return done(null, user);
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           return done(err);
         });
     }

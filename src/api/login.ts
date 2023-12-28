@@ -1,14 +1,14 @@
-const express = require("express");
+import express, {Request, Response} from "express";
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const userWithEmail = await User.findOne({ where: { email } }).catch(
-    (err) => {
+    (err: any) => {
       console.log("Error: ", err);
     }
   );

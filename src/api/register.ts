@@ -1,14 +1,14 @@
-const express = require("express");
+import express, {Request, Response} from "express";
 const User = require("../models/user");
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
   const { fullName, email, password } = req.body;
 
   const alreadyExistsUser = await User.findOne({ where: { email } }).catch(
-    (err) => {
-      console.log("Error: ", err);
+    (err: Error) => {
+      console.log("Error: ", err.message);
     }
   );
 
@@ -17,8 +17,8 @@ router.post("/register", async (req, res) => {
   }
 
   const newUser = new User({ fullName, email, password });
-  const savedUser = await newUser.save().catch((err) => {
-    console.log("Error: ", err);
+  const savedUser = await newUser.save().catch((err: Error) => {
+    console.log("Error: ", err.message);
     res.status(500).json({ error: "Cannot register user at the moment!" });
   });
 
