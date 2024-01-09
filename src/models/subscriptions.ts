@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const Subscriptions = sequelize.define("Subscriptions", {
+export const Subscriptions = sequelize.define("Subscriptions", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -17,6 +17,8 @@ const Subscriptions = sequelize.define("Subscriptions", {
     type: DataTypes.JSONB,
     allowNull: true
   },
+}, {
+  freezeTableName: true
 });
 
 module.exports = Subscriptions;

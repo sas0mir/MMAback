@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const Post_types = sequelize.define("Post_types", {
+export const Post_types = sequelize.define("Post_types", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -29,6 +29,8 @@ const Post_types = sequelize.define("Post_types", {
         key: "id",
       }
   },
+}, {
+  freezeTableName: true
 });
 
 module.exports = Post_types;

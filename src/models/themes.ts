@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const Theme = sequelize.define("Theme", {
+export const Themes = sequelize.define("Themes", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -41,6 +41,8 @@ const Theme = sequelize.define("Theme", {
         key: "id",
       }
   },
+}, {
+  freezeTableName: true
 });
 
-module.exports = Theme;
+module.exports = Themes;

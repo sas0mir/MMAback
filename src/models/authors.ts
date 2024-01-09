@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const Authors = sequelize.define("Authors", {
+export const Authors = sequelize.define("Authors", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -29,6 +29,8 @@ const Authors = sequelize.define("Authors", {
         key: "id",
       }
   },
+}, {
+  freezeTableName: true
 });
 
 module.exports = Authors;

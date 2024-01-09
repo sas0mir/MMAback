@@ -1,7 +1,11 @@
-const { DataTypes } = require("sequelize");
+//const { DataTypes } = require("sequelize");
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 const sequelize = require("../database");
+//import { sequelize } from "../database";
 
-const Organizations = sequelize.define("Organizations", {
+
+//export default class Organizations extends Model<InferAttributes<Organizations>, InferCreationAttributes<Organizations>>
+export const Organizations = sequelize.define("Organizations", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -21,6 +25,8 @@ const Organizations = sequelize.define("Organizations", {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
+}, {
+  freezeTableName: true
 });
 
 module.exports = Organizations;

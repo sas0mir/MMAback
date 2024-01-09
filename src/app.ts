@@ -8,7 +8,7 @@ import { get as lget } from "lodash";
 require("dotenv").config();
 require("./auth/passport");
 
-require("./models/user");
+// require("./models/users");
 
 const middlewares = require("./middlewares");
 const api = require("./api");

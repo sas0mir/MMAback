@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-const User = require("../models/user");
+const Users = require("../models/users");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const userWithEmail = await User.findOne({ where: { email } }).catch(
+  const userWithEmail = await Users.findOne({ where: { email } }).catch(
     (err: any) => {
       console.log("Error: ", err);
     }
