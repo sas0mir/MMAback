@@ -4,6 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
+interface SessionRequest extends Request {
+  session: any
+}
+
 router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -27,6 +31,13 @@ router.post("/login", async (req: Request, res: Response) => {
     { id: userWithEmail.id, email: userWithEmail.email },
     process.env.JWT_SECRET
   );
+
+  if (userWithEmail.password === password) {
+    //req.session.token = jwtToken; todo
+    res.redirect('/dashboard_ssrui');
+  } else {
+      res.render('login', { error: 'Invalid username or password' });
+  }
 
   res.json({ message: "Welcome Back!", token: jwtToken });
 });

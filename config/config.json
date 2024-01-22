@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "sas",
+    "password": "Cvbhyjd1989",
+    "database": "smianal",
+    "host": "192.168.3.26",
+    "dialect": "postgres",
+    "port": "5432"
+  },
+  "test": {
+    "username": "sas",
+    "password": "Cvbhyjd1989",
+    "database": "smianal",
+    "host": "192.168.3.26",
+    "dialect": "postgres",
+    "port": "5432"
+  },
+  "production": {
+    "username": "sas",
+    "password": "Cvbhyjd1989",
+    "database": "smianal",
+    "host": "192.168.3.26",
+    "dialect": "postgres",
+    "port": "5432"
+  }
+}

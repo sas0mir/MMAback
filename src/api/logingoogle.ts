@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import passport from "passport";
-const User = require("../models/user");
+const Users = require("../models/users");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();

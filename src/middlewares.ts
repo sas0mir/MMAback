@@ -2,6 +2,10 @@ import { NextFunction } from "express";
 import { Request, Response, Express } from "express";
 import { HttpException } from "./helpers/constants";
 
+interface SessionRequest extends Request {
+  session: any
+}
+
 function notFound(req: Request, res: Response, next: NextFunction) {
     res.status(404);
     const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
@@ -19,8 +23,17 @@ function notFound(req: Request, res: Response, next: NextFunction) {
       stack: process.env.NODE_ENV === 'production' ? '🥞' : err instanceof Error ? err.stack : errMsg
     });
   }
+
+  function requireAuth(req: SessionRequest, res: Response, next: NextFunction) {
+    if (req.session.userId) {
+        next(); // User is authenticated, continue to next middleware
+    } else {
+        res.redirect('/login'); // User is not authenticated, redirect to login page
+    }
+  }
   
   module.exports = {
     notFound,
-    errorHandler
+    errorHandler,
+    requireAuth
   };

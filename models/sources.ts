@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-export const Journal = sequelize.define("Journal", {
+export const Sources = sequelize.define("Sources", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -9,20 +9,20 @@ export const Journal = sequelize.define("Journal", {
     autoIncrement: true,
     unique: true
   },
-  user: {
-    type: DataTypes.INTEGER,
+  name: {
+    type: DataTypes.STRING,
     allowNull: false,
-    references: {
-        model: "Users",
-        key: "id",
-      }
   },
-  data: {
+  context: {
     type: DataTypes.JSONB,
+    allowNull: true
+  },
+  rating: {
+    type: DataTypes.INTEGER,
     allowNull: true
   },
 }, {
   freezeTableName: true
 });
 
-module.exports = Journal;
+module.exports = Sources;
