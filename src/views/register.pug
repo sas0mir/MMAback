@@ -4,7 +4,6 @@ head
   link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
 
   body
-    p test
     .modal-dialog
         .modal-content
           // Modal Header
@@ -13,25 +12,19 @@ head
               span(aria-hidden="true") ×
               span.sr-only Close
             h4#myModalLabel.modal-title
-              | Edit Resource
+              | Регистрация
           // Modal Body
           .modal-body
             form(role='form' method='POST' action='/api/register')
               div.form-group
-                label(for='name') Name:
+                label(for='name') Имя:
                 input#name.form-control(type='text', placeholder='name' name='name')
               div.form-group
-                label(for='email') Email:
+                label(for='email') Почта:
                 input#email.form-control(type='email', placeholder='name@email.com' name='email')
               div.form-group
-                label(for='password') Create password:
-                input#password.form-control(type='password', placeholder='create password' name='password')
+                label(for='password') Создать пароль:
+                input#password.form-control(type='password', placeholder='пароль' name='password')
               button.btn.btn-primary(type="submit", name="asdf")= message
               button.btn.btn-default(type="button", data-dismiss="modal")
-                | Close
-          // Modal Footer
-          .modal-footer
-            h4 footer
-
-    // footer
-    p.foot.text-xs-center test
+                | Закрыть

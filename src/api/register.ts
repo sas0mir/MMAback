@@ -1,5 +1,6 @@
 import express, {Request, Response} from "express";
 const Users = require("../models/users");
+const md5 = require("md5");
 
 const router = express.Router();
 
@@ -17,7 +18,14 @@ router.post("/register", async (req: Request, res: Response) => {
     return res.status(409).json({ message: "User with email already exists!" });
   }
 
-  const newUser = new Users({ name, email, password });
+  const newUser = new Users({
+    name, email,
+    password: md5(password),
+    subscription_type: 0,
+    subscription_date: new Date(),
+    settings: {vidgets: 'default'},
+    themes: {favorites: ['dollar']},
+  });
   const savedUser = await newUser.save().catch((err: Error) => {
     console.log("Error: ", err.message);
     res.status(500).json({ error: "Cannot register user at the moment!" });

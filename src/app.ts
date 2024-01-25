@@ -66,7 +66,7 @@ app.get('/gg', (req, res) => {
   res.send('gg');
 });
 
-app.use("/api/v1", api);
+app.use("/api", api);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

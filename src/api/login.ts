@@ -1,6 +1,7 @@
 import express, {Request, Response} from "express";
 const Users = require("../models/users");
 const jwt = require("jsonwebtoken");
+const md5 = require("md5");
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.post("/login", async (req: Request, res: Response) => {
       .status(400)
       .json({ message: "Email or password does not match!" });
 
-  if (userWithEmail.password !== password)
+  if (userWithEmail.password !== md5(password))
     return res
       .status(400)
       .json({ message: "Email or password does not match!" });
