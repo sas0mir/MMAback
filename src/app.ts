@@ -60,6 +60,10 @@ app.all('/secret', function(req: Request, res: Response, next: any) {
     res.render('login', {title: 'login', message: 'enter'});
   });
 
+  app.get('/dashboard_ssrui', function(req: Request, res: Response) {
+    res.render('dashboard', {title: 'Hello username', message: 'test message'});
+  });
+
 app.get('/gg', (req, res) => {
   console.log('GG-SESSION->', lget(req, 'session'));
 

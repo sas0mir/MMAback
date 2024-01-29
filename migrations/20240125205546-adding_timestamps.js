@@ -4,7 +4,7 @@
 module.exports = {
   up(queryInterface, Sequelize) {
     return Promise.all([
-      queryInterface.addColumn("Sources", "cratedAt", {
+      queryInterface.addColumn("Sources", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Sources", "updatedAt", {
@@ -13,7 +13,7 @@ module.exports = {
       queryInterface.addColumn("Sources", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Organizations", "cratedAt", {
+      queryInterface.addColumn("Organizations", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Organizations", "updatedAt", {
@@ -22,7 +22,7 @@ module.exports = {
       queryInterface.addColumn("Organizations", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Subscriptions", "cratedAt", {
+      queryInterface.addColumn("Subscriptions", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Subscriptions", "updatedAt", {
@@ -31,7 +31,7 @@ module.exports = {
       queryInterface.addColumn("Subscriptions", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Authors", "cratedAt", {
+      queryInterface.addColumn("Authors", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Authors", "updatedAt", {
@@ -40,7 +40,7 @@ module.exports = {
       queryInterface.addColumn("Authors", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Post_types", "cratedAt", {
+      queryInterface.addColumn("Post_types", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Post_types", "updatedAt", {
@@ -49,7 +49,7 @@ module.exports = {
       queryInterface.addColumn("Post_types", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Users", "cratedAt", {
+      queryInterface.addColumn("Users", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Users", "updatedAt", {
@@ -58,7 +58,7 @@ module.exports = {
       queryInterface.addColumn("Users", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Journal", "cratedAt", {
+      queryInterface.addColumn("Journal", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Journal", "updatedAt", {
@@ -67,7 +67,7 @@ module.exports = {
       queryInterface.addColumn("Journal", "deletedAt", {
         type: Sequelize.DATE,
       }),
-      queryInterface.addColumn("Themes", "cratedAt", {
+      queryInterface.addColumn("Themes", "createdAt", {
         type: Sequelize.DATE,
       }),
       queryInterface.addColumn("Themes", "updatedAt", {

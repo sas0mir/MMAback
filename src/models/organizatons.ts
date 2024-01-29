@@ -25,6 +25,15 @@ export const Organizations = sequelize.define("Organizations", {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

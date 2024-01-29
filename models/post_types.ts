@@ -29,6 +29,15 @@ export const Post_types = sequelize.define("Post_types", {
         key: "id",
       }
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

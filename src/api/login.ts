@@ -10,7 +10,7 @@ interface SessionRequest extends Request {
 }
 
 router.post("/login", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, return_to } = req.body;
 
   const userWithEmail = await Users.findOne({ where: { email } }).catch(
     (err: any) => {
@@ -35,9 +35,9 @@ router.post("/login", async (req: Request, res: Response) => {
 
   if (userWithEmail.password === password) {
     //req.session.token = jwtToken; todo
-    res.redirect('/dashboard_ssrui');
+    res.redirect(return_to || '/dashboard_ssrui');
   } else {
-      res.render('login', { error: 'Invalid username or password' });
+      res.render('login', { title: 'Login error', message: 'Invalid username or password' });
   }
 
   res.json({ message: "Welcome Back!", token: jwtToken });

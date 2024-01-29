@@ -13,6 +13,14 @@ export const Users = sequelize.define("Users", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   org: {
     type: DataTypes.INTEGER,
     references: {
@@ -40,6 +48,15 @@ export const Users = sequelize.define("Users", {
     type: DataTypes.JSONB,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

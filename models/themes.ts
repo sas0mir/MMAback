@@ -41,6 +41,15 @@ export const Themes = sequelize.define("Themes", {
         key: "id",
       }
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

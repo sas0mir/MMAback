@@ -29,6 +29,15 @@ export const Authors = sequelize.define("Authors", {
         key: "id",
       }
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

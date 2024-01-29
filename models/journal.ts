@@ -21,6 +21,15 @@ export const Journal = sequelize.define("Journal", {
     type: DataTypes.JSONB,
     allowNull: true
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });

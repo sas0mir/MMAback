@@ -25,10 +25,11 @@ function notFound(req: Request, res: Response, next: NextFunction) {
   }
 
   function requireAuth(req: SessionRequest, res: Response, next: NextFunction) {
+    console.log('SESSION-MIDDLEWARE->', req.session);
     if (req.session.userId) {
-        next(); // User is authenticated, continue to next middleware
+        next();
     } else {
-        res.redirect('/login'); // User is not authenticated, redirect to login page
+        res.redirect('/login_ssrui');
     }
   }
   

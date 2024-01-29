@@ -21,6 +21,15 @@ export const Sources = sequelize.define("Sources", {
     type: DataTypes.INTEGER,
     allowNull: true
   },
+  createdAt: {
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
 }, {
   freezeTableName: true
 });
