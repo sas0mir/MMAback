@@ -6,9 +6,14 @@ import bodyParser from "body-parser";
 import passport from "passport";
 import { get as lget } from "lodash";
 require("dotenv").config();
-require("./auth/passport");
 
-// require("./models/users");
+// declare global {
+//   namespace Express {
+//     interface Session {
+//       _token?: String
+//     }
+//   }
+// }
 
 const middlewares = require("./middlewares");
 const api = require("./api");
@@ -23,34 +28,18 @@ app.use(session({
   secret: 'smi-secret',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { secure: true },
 }));
 
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.json({
-    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
-  });
-});
-
-app.all('/secret', function(req: Request, res: Response, next: any) {
-    //todo
-    //req.requestTime = Date.now();
-    next()
-  });
   
   app.use(bodyParser());
   
   app.set('views', './src/views');
   app.set('view engine', 'pug');
-  
-  app.get('/test_template', function(req: Request, res: Response) {
-    res.render('testpage', {title: 'Testing', message: 'Template render success'});
-  });
 
   app.get('/register_ssrui', function(req: Request, res: Response) {
     res.render('register', {title: 'register', message: 'create account'});
@@ -60,15 +49,10 @@ app.all('/secret', function(req: Request, res: Response, next: any) {
     res.render('login', {title: 'login', message: 'enter'});
   });
 
-  app.get('/dashboard_ssrui', function(req: Request, res: Response) {
-    res.render('dashboard', {title: 'Hello username', message: 'test message'});
+  app.get('/dashboard_ssrui', middlewares.requireAuth, function(req: Request, res: Response) {
+    console.log('DASHBOARD USER-SESSION->', lget(req, 'session'));
+    res.render('dashboard', {title: 'Hello username', message: lget(req, 'session.token') || 'dashboard'});
   });
-
-app.get('/gg', (req, res) => {
-  console.log('GG-SESSION->', lget(req, 'session'));
-
-  res.send('gg');
-});
 
 app.use("/api", api);
 

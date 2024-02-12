@@ -15,12 +15,12 @@ head
               | Edit Resource
           // Modal Body
           .modal-body
-            form(role='form' method='POST' action='/login')
+            form(role='form' method='POST' action='/api/login')
               div.form-group
                 label(for='email') Email:
                 input#email.form-control(type='email', placeholder='name@email.com' name='email')
               div.form-group
-                label(for='password') Create password:
+                label(for='password') Password:
                 input#password.form-control(type='password', placeholder='create password' name='password')
               button.btn.btn-primary(type="submit", name="asdf")= message
               button.btn.btn-default(type="button", data-dismiss="modal")

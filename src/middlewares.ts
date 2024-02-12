@@ -26,7 +26,7 @@ function notFound(req: Request, res: Response, next: NextFunction) {
 
   function requireAuth(req: SessionRequest, res: Response, next: NextFunction) {
     console.log('SESSION-MIDDLEWARE->', req.session);
-    if (req.session.userId) {
+    if (req.session.token) {
         next();
     } else {
         res.redirect('/login_ssrui');
