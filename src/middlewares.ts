@@ -25,11 +25,18 @@ function notFound(req: Request, res: Response, next: NextFunction) {
   }
 
   function requireAuth(req: SessionRequest, res: Response, next: NextFunction) {
-    console.log('SESSION-MIDDLEWARE->', req.session);
-    if (req.session.token) {
+    console.log('SESSION-MIDDLEWARE->', req.session.user, req.sessionID);
+    if (req.session.user) {
+      try {
+        req.session.touch();
         next();
+      } catch(err) {
+        console.log('SESSION-ERROR->', err)
+        res.json({success: false, message: err})
+      }
     } else {
-        res.redirect('/login_ssrui');
+        //res.redirect('/login_ssrui');
+        res.json({success: false, message: 'Необходима авторизация'})
     }
   }
   

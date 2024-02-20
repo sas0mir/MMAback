@@ -2,7 +2,7 @@ import express, {NextFunction, Request, Response} from "express";
 const Users = require("../models/users");
 const jwt = require("jsonwebtoken");
 const md5 = require("md5");
-import {get} from 'lodash'
+import {get, set} from 'lodash'
 
 const router = express.Router();
 
@@ -37,42 +37,39 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
   );
 
   if (userWithEmail.password === md5(password)) {
+
     req.session.regenerate((err) => {
       if(err) next(err)
-
-      //req.session.token = jwtToken
+      set(req.session, 'user', {
+        ...userWithEmail,
+        token: jwtToken
+      })
       req.session.save((err) => {
-        if(err) next(err)
-        //res.redirect(`${process.env.FRONT_URL}/${return_to}` || '/dashboard_ssrui');
+        if(err) return next(err)
         res.json({success: true, token: jwtToken, user: userWithEmail})
       })
     })
     console.log('LOGIN-SUCCESS->', get(req, 'session'), req.sessionID);
   } else {
     res.json({success: false, message: 'Пароль не верен'})
-      //res.render('login', { title: 'Login error', message: 'Invalid username or password' });
   }
-
-  //res.json({ message: "Welcome Back!", token: jwtToken, user: userWithEmail });
 });
 
-router.get('/logout', async (req: Request, res: Response, next: NextFunction) => {
-  // logout logic
-
-  // clear the user from the session object and save.
-  // this will ensure that re-using the old session id
-  // does not have a logged in user
-  //req.session.user = null
-  req.session.save(function (err) {
-    if (err) next(err)
-
-    // regenerate the session, which is good practice to help
-    // guard against forms of session fixation
-    req.session.regenerate(function (err) {
-      if (err) next(err)
-      res.redirect('/')
+router.get('/logout', async (req: Request, res: Response) => {
+  set(req.session, 'user', null);
+  try {
+    req.session.save(function (err) {
+      if (err) throw new Error(err)
+      req.session.regenerate(function (err) {
+        if (err) throw new Error(err)
+        // res.redirect('/login')
+      res.json({success: true, message: 'logout success'})
+      })
     })
-  })
+  } catch(err) {
+    console.log('LOGOUT-ERROR->', err);
+    res.json({success: false, message: err})
+  }
 })
 
 module.exports = router;

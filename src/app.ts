@@ -28,7 +28,7 @@ app.use(session({
   secret: 'smi-secret',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true },
+  cookie: { secure: true, maxAge: 3600000 },
 }));
 
 app.use(morgan("dev"));
