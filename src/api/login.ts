@@ -40,10 +40,11 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
 
     req.session.regenerate((err) => {
       if(err) next(err)
-      set(req.session, 'user', {
-        ...userWithEmail,
-        token: jwtToken
-      })
+      //req.session.user = {...userWithEmail, token: jwtToken};
+      // set(req.session, 'user', {
+      //   ...userWithEmail,
+      //   token: jwtToken
+      // })
       req.session.save((err) => {
         if(err) return next(err)
         res.json({success: true, token: jwtToken, user: userWithEmail})
@@ -56,20 +57,26 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
 });
 
 router.get('/logout', async (req: Request, res: Response) => {
-  set(req.session, 'user', null);
-  try {
-    req.session.save(function (err) {
-      if (err) throw new Error(err)
-      req.session.regenerate(function (err) {
-        if (err) throw new Error(err)
-        // res.redirect('/login')
-      res.json({success: true, message: 'logout success'})
-      })
-    })
-  } catch(err) {
-    console.log('LOGOUT-ERROR->', err);
-    res.json({success: false, message: err})
-  }
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log('LOGOUT-ERROR->', err);
+      res.json({success: false, message: err})
+    } else res.json({success: true, message: 'logout success'})
+  });
+  //set(req.session, 'user', null);
+  // try {
+  //   req.session.save(function (err) {
+  //     if (err) throw new Error(err)
+  //     req.session.regenerate(function (err) {
+  //       if (err) throw new Error(err)
+  //       // res.redirect('/login')
+  //     res.json({success: true, message: 'logout success'})
+  //     })
+  //   })
+  // } catch(err) {
+  //   console.log('LOGOUT-ERROR->', err);
+  //   res.json({success: false, message: err})
+  // }
 })
 
 module.exports = router;

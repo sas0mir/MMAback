@@ -25,8 +25,7 @@ function notFound(req: Request, res: Response, next: NextFunction) {
   }
 
   function requireAuth(req: SessionRequest, res: Response, next: NextFunction) {
-    console.log('SESSION-MIDDLEWARE->', req.session.user, req.sessionID);
-    if (req.session.user) {
+    if (req.session.id) {
       try {
         req.session.touch();
         next();

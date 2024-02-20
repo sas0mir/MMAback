@@ -14,7 +14,7 @@ router.post("/ddata", middlewares.requireAuth, async (req: Request, res: Respons
 
   console.log('DDATE-API-BODY->', name);
 
-  const themes = await Themes.findOne({ where: { name } }).catch(
+  const themes = await Themes.findOne({ where: { name: name } }).catch(
     (err: any) => {
       console.log("Error: ", err);
     }
