@@ -1,49 +1,47 @@
-import TelegramBot from "node-telegram-bot-api";
+//import TelegramBot from "node-telegram-bot-api";
 import { get } from "lodash";
 
-const api_key = process.env.API_KEY_BOT || '123'
+const apiUrl = `${process.env.TELEGRAM_API_URL}${process.env.TELEGRAM_BOT_KEY}/`;
+const setWebhookUrl = apiUrl + 'setWebhook?url=https://c2a6-185-104-126-181.ngrok-free.app/api/telegram';
 
-// const examleResponse = {
-//     message_id: ID_СООБЩЕНИЯ,
-//     from: {
-//       id: ID_ПОЛЬЗОВАТЕЛЯ,
-//       is_bot: false,
-//       first_name: ИМЯ_ПОЛЬЗОВАТЕЛЯ,
-//       username: НИК_ПОЛЬЗОВАТЕЛЯ,
-//       language_code: 'ru'
-//     },
-//     chat: {
-//       id: ID_ЧАТА,
-//       first_name: ИМЯ_ПОЛЬЗОВАТЕЛЯ,
-//       username: НИК_ПОЛЬЗОВАТЕЛЯ,
-//       type: 'private'
-//     },
-//     date: 1686255759,
-//     text: ТЕКСТ_СООБЩЕНИЯ,
-//   }
+//инициализация связи с ботом
+export const setWebhook = async () => {
+    console.log('SET-WEBHOOK-TRY->');
+    const tgResp = await fetch(setWebhookUrl, {
+        method: 'GET'
+    }).then(response => {
+        console.log('SET-WEBHOOK-RESPONSE->', response);
+    }).catch(err => {
+        console.log('SET-WEBHOOK-ERROR->', err)
+    })
+}
 
-const bot = new TelegramBot(api_key, {
+module.exports = setWebhook
 
-    polling: {
-        interval: 300,
-        autoStart: true
-    }
+// export const bot = new TelegramBot(process.env.TELEGRAM_BOT_KEY || '', {
+
+//     polling: {
+//         interval: 300,
+//         autoStart: true
+//     }
     
-});
+// });
 
-bot.on("polling_error", err => console.log(get(err, 'data.error.message')));
+// bot.on("polling_error", err => console.log(get(err, 'data.error.message')));
 
-bot.on('text', async msg => {
+// bot.on('text', async msg => {
 
-    console.log(msg);
+//     console.log(msg);
     
-    const msgWait = await bot.sendMessage(msg.chat.id, `Бот генерирует ответ...`);
+//     const msgWait = await bot.sendMessage(msg.chat.id, `Бот генерирует ответ...`);
 
-    setTimeout(async () => {
+//     setTimeout(async () => {
 
-        await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
-        await bot.sendMessage(msg.chat.id, msg.text || "empty message");
+//         await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
+//         await bot.sendMessage(msg.chat.id, msg.text || "empty message");
 
-    }, 5000);
+//     }, 5000);
 
-});
+// });
+
+// module.exports = bot

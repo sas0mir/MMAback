@@ -26,6 +26,7 @@
   "author": "grp",
   "license": "MIT",
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/body-parser": "^1.19.5",
     "@types/concurrently": "^7.0.0",
     "@types/cors": "^2.8.17",
@@ -43,6 +44,7 @@
     "@types/pg-promise": "^5.4.3",
     "@types/rimraf": "^4.0.5",
     "@types/sequelize": "^4.28.19",
+    "axios": "^1.6.7",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

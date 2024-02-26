@@ -18,6 +18,7 @@ require("dotenv").config();
 const middlewares = require("./middlewares");
 const api = require("./api");
 const session = require('express-session');
+const setWebhook = require('./modules/telegram/tg');
 
 const app = express();
 
@@ -40,6 +41,12 @@ app.use(express.json());
   
   app.set('views', './src/views');
   app.set('view engine', 'pug');
+
+  try {
+    setWebhook()
+  } catch(err) {
+    console.log('APP-SETWEBHOOK-ERR->', err);
+  }
 
   app.get('/register_ssrui', function(req: Request, res: Response) {
     res.render('register', {title: 'register', message: 'create account'});
