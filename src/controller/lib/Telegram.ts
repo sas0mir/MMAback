@@ -1,7 +1,6 @@
 const { axiosInstance } = require("./axios");
 
 function sendMessage(messageObj: any, messageText: String) {
-    console.log('SEND-MESSAGE->', !!messageObj, messageText);
     if(messageObj) {
         return axiosInstance.get("sendMessage", {
             chat_id: messageObj.chat_id,
@@ -13,7 +12,7 @@ function sendMessage(messageObj: any, messageText: String) {
 function handleMessage(messageObj: any) {
     const messageText = messageObj ? messageObj.text : '';
     console.log('HANDLE-MESSAGE->', messageText);
-    if(messageText.charAt(0) === '/') {
+    if(messageText.charAt(0) === '/' && messageObj.from) {
         const command = messageText.substr(1);
         switch (command) {
             case "start":
@@ -22,7 +21,9 @@ function handleMessage(messageObj: any) {
             default: return sendMessage(messageObj, 'COMMAND UNKNOWN')
         }
     } else {
-        return sendMessage(messageObj, messageText)
+        if(/^smi_bot/.test(messageText)) {
+            return sendMessage(messageObj, `Smi_bot answer to your message: ${messageText}`)
+        }
     }
 }
 

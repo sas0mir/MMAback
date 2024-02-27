@@ -2,7 +2,7 @@
 import { get } from "lodash";
 
 const apiUrl = `${process.env.TELEGRAM_API_URL}${process.env.TELEGRAM_BOT_KEY}/`;
-const setWebhookUrl = apiUrl + 'setWebhook?url=https://c2a6-185-104-126-181.ngrok-free.app/api/telegram';
+const setWebhookUrl = apiUrl + `setWebhook?url=${process.env.APP_HTTPS_URL}/api/telegram`;
 
 //инициализация связи с ботом
 export const setWebhook = async () => {

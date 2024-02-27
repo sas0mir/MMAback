@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from "express";
-const Themes = require("../models/themes");
+const Users = require("../models/users");
 const middlewares = require("../middlewares");
 import {get} from 'lodash'
 
@@ -9,12 +9,11 @@ interface SessionRequest extends Request {
   session: any
 }
 
-router.post("/ddata", middlewares.requireAuth, async (req: Request, res: Response, next: NextFunction) => {
-  const { name, return_to } = req.body;
+router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Response) => {
 
-  console.log('DDATE-API-BODY->', name);
+  console.log('DDATA-API-0->', req.query, req.params);
 
-  const themes = await Themes.findOne({ where: { name: name } }).catch(
+  const themes = await Users.findOne({ where: { id: req.query.user_id } }).catch(
     (err: any) => {
       console.log("Error: ", err);
     }

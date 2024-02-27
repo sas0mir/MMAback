@@ -11,19 +11,15 @@ interface SessionRequest extends Request {
 }
 
 router.get("/telegram", async (req: Request, res: Response) => {
-  
   handler(req, res)
 })
-// router.get("/telegram", handler);
-//router.post("/telegram", handler);
+
 router.post("/telegram", async (req: Request, res: Response) => {
   handler(req, res)
-  // try {
-  //   res.json({success: true, message: ''})
-  // } catch(err) {
-  //   console.log('TG-SEARCH-ERROR->', err)
-  //   res.json({success: false, message: err})
-  // }
 });
+
+router.get("/telegram_search", async (req: Request, res: Response) => {
+  //todo
+})
 
 module.exports = router;
