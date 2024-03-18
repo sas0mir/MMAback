@@ -43,7 +43,7 @@ app.use(express.json());
   app.set('view engine', 'pug');
 
   try {
-    setWebhook()
+    //setWebhook()
   } catch(err) {
     console.log('APP-SETWEBHOOK-ERR->', err);
   }

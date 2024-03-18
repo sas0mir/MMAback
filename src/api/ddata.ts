@@ -43,11 +43,12 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     let themes = await Themes.findAll({where: {name: user.themes}});
     if(themes && themes.length) {
       for (let theme of themes) {
-        theme.post_types = await Post_types.findOne({where: {id: theme.type}});
-        theme.sources = await Sources.findAll({where: {id: theme.source}});
+        theme.dataValues.post_types = await Post_types.findOne({where: {id: theme.type}});
+        theme.dataValues.sources = await Sources.findOne({where: {id: theme.source}});
       }
       responseData.themes = themes;
     }
+    console.log('TTT-1->', responseData.themes);
     res.json({success: true, data: responseData})
   }
 });

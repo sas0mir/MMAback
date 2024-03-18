@@ -4,6 +4,7 @@ const loginApi = require("./login");
 const paymentApi = require("./payment");
 const ddataApi = require("./ddata");
 const telegramApi = require("./telegram");
+const themesApi = require("./themes");
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use(loginApi);
 router.use(paymentApi);
 router.use(ddataApi);
 router.use(telegramApi);
+router.use(themesApi);
 
 module.exports = router;
