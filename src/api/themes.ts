@@ -1,4 +1,4 @@
-import express, {NextFunction, Request, Response} from "express";
+import express, {NextFunction, Request, response, Response} from "express";
 const Users = require("../models/users");
 const Themes = require("../models/themes");
 const Sources = require("../models/sources");
@@ -12,8 +12,13 @@ interface SessionRequest extends Request {
   session: any
 }
 
-router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: Response) => {
+router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Response) => {
+  const {user_id, author, source, platform} = req.body;
+  console.log('API-SUBSCRIBE->', user_id, author, source, platform);
+});
 
+router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: Response) => {
+  //source переделать в селект на фронте и выбирать из предложенных каналов, сюда отправлять source.id
     const { user_id, user_themes, name, prompt, platform, source, author } = req.body;
 
     console.log('THEME-API-1->', user_id, user_themes, name, source, author)
@@ -53,7 +58,7 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
     themeExist = await Themes.create({
         name: name,
         prompt: prompt,
-        source: 1,
+        source: 1,//source из запроса
         clients: [user_id],
         type: 1,
         rating: null,

@@ -21,6 +21,17 @@ export const Sources = sequelize.define("Sources", {
     type: DataTypes.INTEGER,
     allowNull: true
   },
+  platform: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+        model: "Platforms",
+        key: "id",
+    }
+  },
+  account_name: {
+    type: DataTypes.STRING,
+  },
   createdAt: {
     type: DataTypes.DATE
   },

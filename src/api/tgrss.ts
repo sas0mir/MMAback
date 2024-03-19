@@ -23,6 +23,8 @@ router.post("/telegram_rss", middlewares.requireAuth, async (req: Request, res: 
 
     // }
 
+    // let result = await telegram_rss(telegram_channel_username)
+
     res.json({success: true, data: {}, message:'rss test'})
 });
 
