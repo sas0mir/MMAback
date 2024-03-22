@@ -21,6 +21,7 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     user: null,
     organization: null,
     subscription: null,
+    platforms: null,
     themes: null
   };
 
@@ -47,6 +48,7 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     responseData.user = user;
     responseData.organization = await Organizations.findOne({where: {id: user.org}});
     responseData.subscription = await Subscriptions.findOne({where: {id: user.subscription_type}});
+    responseData.platforms = await Platform.findAll();
 
     let themes = await Themes.findAll({where: {name: userThemesArr}});
     if(themes && themes.length) {

@@ -4,6 +4,8 @@ const Themes = require("../models/themes");
 const Sources = require("../models/sources");
 const Authors = require("../models/authors");
 const middlewares = require("../middlewares");
+const TChannels = require("tchannels");
+import { telegram_rss } from "telegram-rss";
 import {get} from 'lodash'
 
 const router = express.Router();
@@ -15,6 +17,47 @@ interface SessionRequest extends Request {
 router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Response) => {
   const {user_id, author, source, platform} = req.body;
   console.log('API-SUBSCRIBE->', user_id, author, source, platform);
+  let sourceExist = await Sources.findOne({
+    where: {name: source}
+  }).catch((err: any) => {
+    console.log('SOURCE-EXIST-ERR->', err);
+    return res.status(400).json({success: false, message: err})
+  })
+  let authorExist = await Authors.findOne({
+    where: {name: author}
+  }).catch((err: any) => {
+    console.log('AUTHOR-EXIST-ERR->', err);
+    return res.status(400).json({success: false, message: err})
+  })
+  if(sourceExist) {
+    return res.status(400).json({success: false, message: "Источник уже в базе данных"})
+  }
+  console.log('000->', sourceExist, authorExist, platform === '1', source);
+  if(platform === '1') {
+    TChannels.search(source).then((res: any) => {
+      console.log('TCHANNELS->', res.length, res);
+    })
+    let result = await telegram_rss(source)
+    console.log('111->', result);
+  }
+  // if(!sourceExist) {
+  //   sourceExist = await Sources.create({
+  //       name: source,
+  //       context: null,
+  //       rating: 0,
+  //       platform: platform,
+  //       account_name: '',
+  //       createdAt: new Date()
+  //   }).catch((err: any) => {
+  //       console.log('SOURCE-CREATE-ERR->', err);
+  //       return res.status(400).json({success: false, message: err})
+  //   })
+  // }
+
+  //await userData.update({themes: user_themes});
+  //await userData.save();
+
+    res.json({success: true, data: sourceExist, message: sourceExist ? 'Тема добавлена пользователю' : 'Создана новая тема'})
 });
 
 router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: Response) => {
