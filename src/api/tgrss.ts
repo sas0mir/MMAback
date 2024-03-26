@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from "express";
-import { telegram_rss } from "telegram-rss";
+import { telegram_scraper } from "telegram-scraper";
 const Users = require("../models/users");
 const Themes = require("../models/themes");
 const Sources = require("../models/sources");
@@ -18,6 +18,12 @@ router.post("/telegram_rss", middlewares.requireAuth, async (req: Request, res: 
     const { user_id, user_themes, source, author } = req.body;
 
     console.log('TG-API-1->', user_id, user_themes, source, author);
+
+    for(const platform in user_themes) {
+
+    }
+
+    const tg_rss = telegram_scraper('')
 
     // for (const s of user_channels) {
 

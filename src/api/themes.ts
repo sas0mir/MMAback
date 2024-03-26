@@ -5,7 +5,7 @@ const Sources = require("../models/sources");
 const Authors = require("../models/authors");
 const middlewares = require("../middlewares");
 const TChannels = require("tchannels");
-import { telegram_rss } from "telegram-rss";
+import { telegram_scraper } from "telegram-scraper";
 import {get} from 'lodash'
 
 const router = express.Router();
@@ -16,48 +16,44 @@ interface SessionRequest extends Request {
 
 router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Response) => {
   const {user_id, author, source, platform} = req.body;
-  console.log('API-SUBSCRIBE->', user_id, author, source, platform);
   let sourceExist = await Sources.findOne({
     where: {name: source}
   }).catch((err: any) => {
     console.log('SOURCE-EXIST-ERR->', err);
     return res.status(400).json({success: false, message: err})
   })
-  let authorExist = await Authors.findOne({
-    where: {name: author}
-  }).catch((err: any) => {
-    console.log('AUTHOR-EXIST-ERR->', err);
-    return res.status(400).json({success: false, message: err})
-  })
+  // let authorExist = await Authors.findOne({
+  //   where: {name: author}
+  // }).catch((err: any) => {
+  //   console.log('AUTHOR-EXIST-ERR->', err);
+  //   return res.status(400).json({success: false, message: err})
+  // })
   if(sourceExist) {
     return res.status(400).json({success: false, message: "Источник уже в базе данных"})
   }
-  console.log('000->', sourceExist, authorExist, platform === '1', source);
-  if(platform === '1') {
-    TChannels.search(source).then((res: any) => {
-      console.log('TCHANNELS->', res.length, res);
-    })
-    let result = await telegram_rss(source)
-    console.log('111->', result);
+  if(!sourceExist) {
+    if(platform === '1') {
+      const check_channel = await telegram_scraper(source);
+      const check_ch_res = check_channel === 'Unknown telegram channel' ? check_channel : JSON.parse(check_channel);
+      if(check_ch_res === 'Unknown telegram channel') {
+        return res.status(400).json({success: false, message: "Телеграм канал с таким юзернеймом не существует"})
+      } else {
+        const channel_name = check_ch_res[0].user_name;
+        sourceExist = await Sources.create({
+            name: channel_name,
+            context: null,
+            rating: 0,
+            platform: platform,
+            account_name: source,
+            createdAt: new Date()
+        }).catch((err: any) => {
+            console.log('SOURCE-CREATE-ERR->', err);
+            return res.status(400).json({success: false, message: err})
+        })
+      }
+    }
   }
-  // if(!sourceExist) {
-  //   sourceExist = await Sources.create({
-  //       name: source,
-  //       context: null,
-  //       rating: 0,
-  //       platform: platform,
-  //       account_name: '',
-  //       createdAt: new Date()
-  //   }).catch((err: any) => {
-  //       console.log('SOURCE-CREATE-ERR->', err);
-  //       return res.status(400).json({success: false, message: err})
-  //   })
-  // }
-
-  //await userData.update({themes: user_themes});
-  //await userData.save();
-
-    res.json({success: true, data: sourceExist, message: sourceExist ? 'Тема добавлена пользователю' : 'Создана новая тема'})
+  res.json({success: true, data: sourceExist, message: 'Источник успешно добавлен'})
 });
 
 router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: Response) => {
@@ -117,5 +113,13 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
 
     res.json({success: true, data: themeExist, user: userData, message: themeExist ? 'Тема добавлена пользователю' : 'Создана новая тема'})
 });
+
+router.get('/load_posts', middlewares.requireAuth, async (req: Request, res: Response) => {
+  const { channel_name } = req.query;
+  const posts = await telegram_scraper(channel_name);
+  res.json({success: true, data: posts})
+});
+
+router.get('/search_posts',)
 
 module.exports = router;

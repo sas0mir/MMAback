@@ -44,7 +44,6 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     for (const platform in user.themes) {
       userThemesArr = [...userThemesArr, ...user.themes[platform]]
     }
-    console.log('ARR->', userThemesArr)
     responseData.user = user;
     responseData.organization = await Organizations.findOne({where: {id: user.org}});
     responseData.subscription = await Subscriptions.findOne({where: {id: user.subscription_type}});
@@ -59,7 +58,6 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
       }
       responseData.themes = themes;
     }
-    console.log('TTT-1->', responseData.themes);
     res.json({success: true, data: responseData})
   }
 });
