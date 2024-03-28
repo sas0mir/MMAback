@@ -58,7 +58,7 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
       }
       responseData.themes = themes;
     }
-    res.json({success: true, data: responseData})
+    res.json({success: true, data: responseData, message: 'Данные пользователя успешно загружены'})
   }
 });
 

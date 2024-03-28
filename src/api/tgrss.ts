@@ -13,25 +13,14 @@ interface SessionRequest extends Request {
   session: any
 }
 
-router.post("/telegram_rss", middlewares.requireAuth, async (req: Request, res: Response) => {
+router.get('/load_posts', middlewares.requireAuth, async (req: Request, res: Response) => {
+  const { channel_name } = req.query;
+  console.log('LOAD-POSTS-API->', req.session, req.query);
 
-    const { user_id, user_themes, source, author } = req.body;
-
-    console.log('TG-API-1->', user_id, user_themes, source, author);
-
-    for(const platform in user_themes) {
-
-    }
-
-    const tg_rss = telegram_scraper('')
-
-    // for (const s of user_channels) {
-
-    // }
-
-    // let result = await telegram_rss(telegram_channel_username)
-
-    res.json({success: true, data: {}, message:'rss test'})
+  //const posts = await telegram_scraper(channel_name);
+  res.json({success: true, data: [{test: '123'},{test: '456'}], message: 'Сообщения из источников успешно загружены'})
 });
+
+router.get('/search_posts',)
 
 module.exports = router;
