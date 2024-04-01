@@ -42,7 +42,11 @@ export const Users = sequelize.define("Users", {
   },
   themes: {
     type: DataTypes.JSONB,
-    allowNull: false,
+    allowNull: true,
+  },
+  sources: {
+    type: DataTypes.JSONB,
+    allowNull: true,
   },
   settings: {
     type: DataTypes.JSONB,

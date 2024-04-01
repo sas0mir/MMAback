@@ -24,12 +24,12 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
   if (!userWithEmail)
     return res
       .status(400)
-      .json({ message: "Email or password does not match!", success: false });
+      .json({ message: "Пользователь с указанным email не найден", success: false });
 
   if (userWithEmail.password !== md5(password))
     return res
       .status(400)
-      .json({ message: "Email or password does not match!", success: false });
+      .json({ message: "Пароль не верен", success: false });
 
   const jwtToken = jwt.sign(
     { id: userWithEmail.id, email: userWithEmail.email },
@@ -47,7 +47,7 @@ router.post("/login", async (req: Request, res: Response, next: NextFunction) =>
       // })
       req.session.save((err) => {
         if(err) return next(err)
-        res.json({success: true, token: jwtToken, user: userWithEmail})
+        res.json({success: true, token: jwtToken, user: userWithEmail, message: 'Вход успешно выполнен'})
       })
     })
     console.log('LOGIN-SUCCESS->', get(req, 'session'), req.sessionID);

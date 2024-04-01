@@ -21,13 +21,9 @@ export const Authors = sequelize.define("Authors", {
     type: DataTypes.INTEGER,
     allowNull: true
   },
-  source: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Sources",
-        key: "id",
-      }
+  sources: {
+    type: DataTypes.JSONB,
+    allowNull: true,
   },
   createdAt: {
     type: DataTypes.DATE

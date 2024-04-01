@@ -28,6 +28,14 @@ module.exports = {
         updatedAt: null,
         deletedAt: null
       },
+      {
+        id: 4,
+        name: 'VK',
+        context: '["social network", "sng"]',
+        createdAt: new Date(),
+        updatedAt: null,
+        deletedAt: null
+      },
     ])
   },
 

@@ -51,6 +51,23 @@ router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Res
             console.log('SOURCE-CREATE-ERR->', err);
             return res.status(400).json({success: false, message: err})
         })
+
+        const userData = await Users.findOne({
+          where: { id: user_id }
+        }).catch(
+          (err: any) => {
+            console.log("Error: ", err);
+          }
+        );
+
+        let newUserSources = userData.sources || [];
+        newUserSources.push(sourceExist.id)
+        console.log('0000->', newUserSources, userData.sources)
+        //try changed('sources', true)
+        //userData.changed({sources: newUserSources});
+        await userData.update({sources: newUserSources});
+        await userData.save();
+        console.log('1111->', userData);
       }
     }
   }
@@ -58,10 +75,7 @@ router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Res
 });
 
 router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: Response) => {
-  //source переделать в селект на фронте и выбирать из предложенных каналов, сюда отправлять source.id
-    const { user_id, user_themes, name, prompt, platform, source, author } = req.body;
-
-    console.log('THEME-API-1->', user_id, user_themes, name, source, author)
+    const { user_id, user_themes, name, prompt } = req.body;
 
   let themeExist = await Themes.findOne({
     where: { name: name }
@@ -71,18 +85,6 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
     }
   );
 
-//   let sourceExist = await Sources.findOne({
-//     where: { name: source }
-//   }).catch((err: any) => {
-//     console.log('SOURCE-EXIST-ERR->', err);
-//   });
-
-//   let authorExist = await Authors.findOne({
-//     where: { name: author }
-//   }).catch((err: any) => {
-//     console.log('AUTHOR-EXIST-ERR->', err);
-//   })
-
   const userData = await Users.findOne({
     where: { id: user_id }
   }).catch(
@@ -91,26 +93,24 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
     }
   );
 
-  //пока просто создается тема и добавляется юзеру
-  console.log('THEME-API-2->', themeExist, userData);
-
   if(!themeExist) {
     themeExist = await Themes.create({
         id: DataTypes.DEFAULT,
         name: name,
         prompt: prompt,
-        source: 1,//source из запроса
+        sources: userData.sources,
         clients: [user_id],
-        type: 1,
-        rating: null,
+        rating: 1,
         createdAt: new Date()
     }).catch((err: any) => {
         console.log('THEME-CREATE-ERR->', err);
         return res.status(400).json({success: false, message: err})
     })
   }
+  let newUserThemes = userData.themes || [];
+  newUserThemes.push(themeExist.id)
 
-  await userData.update({themes: user_themes});
+  await userData.update({themes: newUserThemes});
   await userData.save();
 
     res.json({success: true, data: themeExist, user: userData, message: themeExist ? 'Тема добавлена пользователю' : 'Создана новая тема'})

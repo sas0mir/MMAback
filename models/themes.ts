@@ -21,25 +21,13 @@ export const Themes = sequelize.define("Themes", {
     type: DataTypes.JSONB,
     allowNull: true
   },
-  type: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Post_types",
-        key: "id",
-      }
-  },
   rating: {
     type: DataTypes.INTEGER,
     allowNull: true
   },
-  source: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Sources",
-        key: "id",
-      }
+  sources: {
+    type: DataTypes.JSONB,
+    allowNull: true
   },
   createdAt: {
     type: DataTypes.DATE

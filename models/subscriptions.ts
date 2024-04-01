@@ -9,6 +9,10 @@ export const Subscriptions = sequelize.define("Subscriptions", {
     autoIncrement: true,
     unique: true
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   users: {
     type: DataTypes.JSONB,
     allowNull: true,

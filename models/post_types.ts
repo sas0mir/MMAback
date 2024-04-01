@@ -9,25 +9,9 @@ export const Post_types = sequelize.define("Post_types", {
     autoIncrement: true,
     unique: true
   },
-  context: {
-    type: DataTypes.JSONB,
+  name: {
+    type: DataTypes.STRING,
     allowNull: true,
-  },
-  author: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Authors",
-        key: "id",
-      }
-  },
-  source: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Sources",
-        key: "id",
-      }
   },
   createdAt: {
     type: DataTypes.DATE

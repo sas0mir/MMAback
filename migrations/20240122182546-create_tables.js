@@ -1,32 +1,11 @@
 'use strict';
 
+const { platform } = require('os');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up(queryInterface, Sequelize) {
     return Promise.all([
-      queryInterface.createTable("Sources", {
-        id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-          autoIncrement: true,
-          unique: true
-        },
-        name: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        context: {
-          type: Sequelize.JSONB,
-          allowNull: true
-        },
-        rating: {
-          type: Sequelize.INTEGER,
-          allowNull: true
-        },
-      }, {
-        freezeTableName: true
-      }),
       queryInterface.createTable("Organizations", {
         id: {
           type: Sequelize.INTEGER,
@@ -47,6 +26,18 @@ module.exports = {
           type: Sequelize.BOOLEAN,
           allowNull: true,
         },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
       }, {
         freezeTableName: true
       }),
@@ -58,12 +49,28 @@ module.exports = {
           autoIncrement: true,
           unique: true
         },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: true
+        },
         users: {
           type: Sequelize.JSONB,
           allowNull: true,
         },
         privs: {
           type: Sequelize.JSONB,
+          allowNull: true
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
           allowNull: true
         },
       }, {
@@ -89,13 +96,21 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: true
         },
-        source: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-              model: "Sources",
-              key: "id",
-            }
+        sources: {
+          type: Sequelize.JSONB,
+          allowNull: true
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
         },
       }, {
         freezeTableName: true
@@ -108,26 +123,50 @@ module.exports = {
           autoIncrement: true,
           unique: true
         },
-        context: {
-          type: Sequelize.JSONB,
+        name: {
+          type: Sequelize.STRING,
           allowNull: true,
         },
-        author: {
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+      }, {
+        freezeTableName: true
+      }),
+      queryInterface.createTable("Platforms", {
+        id: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          references: {
-              model: "Authors",
-              key: "id",
-            }
+          primaryKey: true,
+          autoIncrement: true,
+          unique: true
         },
-        source: {
-          type: Sequelize.INTEGER,
+        name: {
+          type: Sequelize.STRING,
           allowNull: false,
-          references: {
-              model: "Sources",
-              key: "id",
-            }
         },
+        context: {
+          type: Sequelize.JSONB,
+          allowNull: true
+        },
+        createdAt: {
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          type: Sequelize.DATE
+        },
+        deletedAt: {
+          type: Sequelize.DATE
+        }
       }, {
         freezeTableName: true
       }),
@@ -172,16 +211,32 @@ module.exports = {
         },
         themes: {
           type: Sequelize.JSONB,
-          allowNull: false,
+          allowNull: true,
+        },
+        sources: {
+          type: Sequelize.JSONB,
+          allowNull: true,
         },
         settings: {
           type: Sequelize.JSONB,
           allowNull: false,
         },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
       }, {
         freezeTableName: true
       }),
-      queryInterface.createTable("Journal", {
+      queryInterface.createTable("Sources", {
         id: {
           type: Sequelize.INTEGER,
           allowNull: false,
@@ -189,16 +244,40 @@ module.exports = {
           autoIncrement: true,
           unique: true
         },
-        user: {
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        context: {
+          type: Sequelize.JSONB,
+          allowNull: true
+        },
+        rating: {
+          type: Sequelize.INTEGER,
+          allowNull: true
+        },
+        platform: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-              model: "Users",
+              model: "Platforms",
               key: "id",
-            }
+          }
         },
-        data: {
-          type: Sequelize.JSONB,
+        account_name: {
+          type: Sequelize.STRING,
+          allowNull: true
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
           allowNull: true
         },
       }, {
@@ -224,25 +303,60 @@ module.exports = {
           type: Sequelize.JSONB,
           allowNull: true
         },
-        type: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-              model: "Post_types",
-              key: "id",
-            }
-        },
         rating: {
           type: Sequelize.INTEGER,
           allowNull: true
         },
-        source: {
+        sources: {
+          type: Sequelize.JSONB,
+          allowNull: true,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+      }, {
+        freezeTableName: true
+      }),
+      queryInterface.createTable("Journal", {
+        id: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+          unique: true
+        },
+        user: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-              model: "Sources",
+              model: "Users",
               key: "id",
             }
+        },
+        data: {
+          type: Sequelize.JSONB,
+          allowNull: true
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true
         },
       }, {
         freezeTableName: true
@@ -259,8 +373,9 @@ module.exports = {
       queryInterface.dropTable('Authors'),
       queryInterface.dropTable('Post_types'),
       queryInterface.dropTable('Users'),
-      queryInterface.dropTable('Journal'),
       queryInterface.dropTable('Themes'),
+      queryInterface.dropTable('Journal'),
+      queryInterface.dropTable('Platforms')
     ]);
   },
 };

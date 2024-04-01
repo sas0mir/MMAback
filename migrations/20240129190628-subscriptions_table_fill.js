@@ -6,6 +6,7 @@ module.exports = {
     return queryInterface.bulkInsert('Subscriptions', [
       {
         id: 1,
+        name: 'Бесплатная',
         users: null,
         privs: '["monitoring", "searching"]',
         createdAt: new Date(),
@@ -14,6 +15,7 @@ module.exports = {
       },
       {
         id: 2,
+        name: 'Премиум',
         users: null,
         privs: '["monitoring", "searching", "subscribing"]',
         createdAt: new Date(),
@@ -22,6 +24,7 @@ module.exports = {
       },
       {
         id: 3,
+        name: 'Экстра',
         users: null,
         privs: '["monitoring", "searching", "subscribing", "extra"]',
         createdAt: new Date(),
