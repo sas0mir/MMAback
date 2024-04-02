@@ -21,14 +21,6 @@ export const Themes = sequelize.define("Themes", {
     type: DataTypes.JSONB,
     allowNull: true
   },
-  type: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-        model: "Post_types",
-        key: "id",
-      }
-  },
   rating: {
     type: DataTypes.INTEGER,
     allowNull: true

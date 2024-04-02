@@ -62,12 +62,9 @@ router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Res
 
         let newUserSources = userData.sources || [];
         newUserSources.push(sourceExist.id)
-        console.log('0000->', newUserSources, userData.sources)
-        //try changed('sources', true)
-        //userData.changed({sources: newUserSources});
+        await userData.changed('sources', true);
         await userData.update({sources: newUserSources});
         await userData.save();
-        console.log('1111->', userData);
       }
     }
   }
@@ -110,6 +107,7 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
   let newUserThemes = userData.themes || [];
   newUserThemes.push(themeExist.id)
 
+  await userData.changed('themes', true);
   await userData.update({themes: newUserThemes});
   await userData.save();
 

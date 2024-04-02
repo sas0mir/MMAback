@@ -14,11 +14,32 @@ interface SessionRequest extends Request {
 }
 
 router.get('/load_posts', middlewares.requireAuth, async (req: Request, res: Response) => {
-  const { channel_name } = req.query;
-  console.log('LOAD-POSTS-API->', req.session, req.query);
+  const { user_id } = req.query;
 
+  const user = await Users.findOne({where: {id: user_id}}).catch(
+    (err: any) => {
+      console.log("USER-FIND-ERR->", err);
+    }
+  );
+
+  const sources = await Sources.findAll({where: {id: user.sources}}).catch(
+    (err: any) => {
+      console.log("SOURCES-FIND-ERR->", err);
+    }
+  );
+
+  if(!sources || sources && !sources.length) {
+    return res.json({success: false, data: sources, errTitle: 'Добавьте источники', message: 'Не найдены источники для загрузки ленты'})
+  }
+
+  let postsArr: Array<Object> = [];
+
+  for (const source of sources) {
+    const postsBySource = await telegram_scraper(source.account_name);
+    postsArr = [...postsArr, ...JSON.parse(postsBySource)]
+  }
   //const posts = await telegram_scraper(channel_name);
-  res.json({success: true, data: [{test: '123'},{test: '456'}], message: 'Сообщения из источников успешно загружены'})
+  res.json({success: true, data: postsArr, message: 'Сообщения из источников успешно загружены'})
 });
 
 router.get('/search_posts',)
