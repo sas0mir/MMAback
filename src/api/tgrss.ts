@@ -30,16 +30,16 @@ router.get('/load_posts', middlewares.requireAuth, async (req: Request, res: Res
 
   if(!sources || sources && !sources.length) {
     return res.json({success: false, data: sources, errTitle: 'Добавьте источники', message: 'Не найдены источники для загрузки ленты'})
-  }
+  } else {
+    let postsArr: Array<Object> = [];
 
-  let postsArr: Array<Object> = [];
-
-  for (const source of sources) {
-    const postsBySource = await telegram_scraper(source.account_name);
-    postsArr = [...postsArr, ...JSON.parse(postsBySource)]
+    for (const source of sources) {
+      const postsBySource = await telegram_scraper(source.account_name);
+      postsArr = [...postsArr, ...JSON.parse(postsBySource)]
+    }
+    //const posts = await telegram_scraper(channel_name);
+    res.json({success: true, data: postsArr, message: 'Сообщения из источников успешно загружены'})
   }
-  //const posts = await telegram_scraper(channel_name);
-  res.json({success: true, data: postsArr, message: 'Сообщения из источников успешно загружены'})
 });
 
 router.get('/search_posts',)

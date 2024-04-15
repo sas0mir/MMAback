@@ -3,7 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import bodyParser from "body-parser";
-import passport from "passport";
+//import passport from "passport";
 import { get as lget } from "lodash";
 require("dotenv").config();
 
@@ -18,7 +18,7 @@ require("dotenv").config();
 const middlewares = require("./middlewares");
 const api = require("./api");
 const session = require('express-session');
-const setWebhook = require('./modules/telegram/tg');
+const mtproto = require('./modules/telegram/tg');
 
 const app = express();
 
@@ -32,6 +32,7 @@ app.use(session({
   cookie: { secure: true, maxAge: 3600000 },
 }));
 
+
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
@@ -41,12 +42,6 @@ app.use(express.json());
   
   app.set('views', './src/views');
   app.set('view engine', 'pug');
-
-  try {
-    //setWebhook()
-  } catch(err) {
-    console.log('APP-SETWEBHOOK-ERR->', err);
-  }
 
   app.get('/register_ssrui', function(req: Request, res: Response) {
     res.render('register', {title: 'register', message: 'create account'});

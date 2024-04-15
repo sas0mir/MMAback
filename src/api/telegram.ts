@@ -3,6 +3,7 @@ import express, {Request, Response} from "express";
 const middlewares = require("../middlewares");
 import {get} from 'lodash';
 const {handler} = require("../controller/index");
+const mtproto = require('../modules/telegram/tg');
 
 const router = express.Router();
 
@@ -10,16 +11,9 @@ interface SessionRequest extends Request {
   session: any
 }
 
-router.get("/telegram", async (req: Request, res: Response) => {
-  handler(req, res)
-})
-
 router.post("/telegram", async (req: Request, res: Response) => {
-  handler(req, res)
+  const nearestDC = await mtproto.mtproto.call('help.getNearestDc')
+  res.json({success: true, data: nearestDC})
 });
-
-router.get("/telegram_search", async (req: Request, res: Response) => {
-  //todo
-})
 
 module.exports = router;
