@@ -11,9 +11,21 @@ interface SessionRequest extends Request {
   session: any
 }
 
-router.post("/telegram", async (req: Request, res: Response) => {
-  const nearestDC = await mtproto.mtproto.call('help.getNearestDc')
-  res.json({success: true, data: nearestDC})
+router.post("/telegram-search", async (req: Request, res: Response) => {
+  const { query, limit = 10 } = req.body;
+  try {
+    const searchResult = await mtproto.mtproto.call('contacts.search',
+    { q: query, limit})
+    if(searchResult) {
+      res.json({success: true, data: searchResult, message: `Поиск ${query} успешен`})
+    } else throw new Error(`Каналов или контактов по ${query} не найдено`)
+  } catch(err) {
+    res.json({success: false, data: err, message: 'TELEGRAM-CONTACTS-SEARCH-ERROR->' + err})
+  }
 });
+
+router.post("/telegram-search-global", async (req: Request, res: Response) => {
+  
+})
 
 module.exports = router;
