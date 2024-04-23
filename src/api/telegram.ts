@@ -13,19 +13,35 @@ interface SessionRequest extends Request {
 
 router.post("/telegram-search", async (req: Request, res: Response) => {
   const { query, limit = 10 } = req.body;
+  //search: from_id (what user_id wrote - author)
+  let apiResponse = {
+    contactsFound: Object,
+    messagesFound: Object,
+    messagesGlobalFound: Object
+  }
   try {
-    const searchResult = await mtproto.mtproto.call('contacts.search',
+    apiResponse.contactsFound = await mtproto.mtproto.call('contacts.search',
     { q: query, limit})
-    if(searchResult) {
-      res.json({success: true, data: searchResult, message: `Поиск ${query} успешен`})
-    } else throw new Error(`Каналов или контактов по ${query} не найдено`)
+    apiResponse.messagesFound = await mtproto.mtproto.call('messages.search', {
+      q: query, limit
+    })
+    apiResponse.messagesGlobalFound = await mtproto.mtproto.call ('messages.searchGlobal', {
+      q: query, limit
+    })
+    res.json({success: true, data: apiResponse, message: `Поиск ${query} успешен`})
   } catch(err) {
-    res.json({success: false, data: err, message: 'TELEGRAM-CONTACTS-SEARCH-ERROR->' + err})
+    res.json({success: false, data: err, message: 'TELEGRAM-SEARCH-ERROR->' + err})
   }
 });
 
 router.post("/telegram-search-global", async (req: Request, res: Response) => {
-  
+  const { query, limit = 10 } = req.body;
+  try {
+    const searchResult = await mtproto.mtproto.call('messages.searchGlobal')
+  } catch(err) {
+
+  }
 })
 
+router.get("/telegram-")
 module.exports = router;

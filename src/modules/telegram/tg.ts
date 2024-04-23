@@ -177,33 +177,33 @@ function tgCheckPassword(srp_id: any, A: any, M1: any) {
 })();
 
 try {
-  console.log('MTPROTO-1->', mtproto.mtproto);
+  //console.log('MTPROTO-1->', mtproto.mtproto);
   mtproto.mtproto.updates.on('updatesTooLong', (updateInfo: any) => {
-    console.log('TG-updatesTooLong:', updateInfo);
+    //console.log('TG-updatesTooLong:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updateShortMessage', (updateInfo: any) => {
-    console.log('TG-updateShortMessage:', updateInfo);
+    //console.log('TG-updateShortMessage:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updateShortChatMessage', (updateInfo: any) => {
-    console.log('TG-updateShortChatMessage:', updateInfo);
+    //console.log('TG-updateShortChatMessage:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updateShort', (updateInfo: any) => {
-    console.log('TG-updateShort:', updateInfo);
+    //console.log('TG-updateShort:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updatesCombined', (updateInfo: any) => {
-    console.log('TG-updatesCombined:', updateInfo);
+    //console.log('TG-updatesCombined:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updates', (updateInfo: any) => {
-    console.log('TG-updates:', updateInfo);
+    //console.log('TG-updates:', updateInfo);
   });
   
   mtproto.mtproto.updates.on('updateShortSentMessage', (updateInfo: any) => {
-    console.log('TG-updateShortSentMessage:', updateInfo);
+    //console.log('TG-updateShortSentMessage:', updateInfo);
   });
 } catch(err) {
   console.log('MTPROTO-ERR->', err);
