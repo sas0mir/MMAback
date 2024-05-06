@@ -29,6 +29,14 @@ export const Themes = sequelize.define("Themes", {
     type: DataTypes.JSONB,
     allowNull: true
   },
+  views: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  history: {
+    type: DataTypes.JSONB,
+    allowNull: true
+  },
   createdAt: {
     type: DataTypes.DATE
   },

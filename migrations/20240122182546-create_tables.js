@@ -311,6 +311,14 @@ module.exports = {
           type: Sequelize.JSONB,
           allowNull: true,
         },
+        views: {
+          type: Sequelize.INTEGER,
+          allowNull: true
+        },
+        history: {
+          type: Sequelize.JSONB,
+          allowNull: true
+        },
         createdAt: {
           type: Sequelize.DATE,
           allowNull: true

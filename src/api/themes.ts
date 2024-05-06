@@ -97,6 +97,8 @@ router.post("/theme_create", middlewares.requireAuth, async (req: Request, res: 
         prompt: prompt,
         sources: userData.sources,
         clients: [user_id],
+        views: 1,
+        history: [{rating: 1, views: 1, date: new Date(), changes: ''}],
         rating: 1,
         createdAt: new Date()
     }).catch((err: any) => {

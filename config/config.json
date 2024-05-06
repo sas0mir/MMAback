@@ -7,6 +7,14 @@
     "dialect": "postgres",
     "port": "5432"
   },
+  "development_local": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "postgres",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": "5432"
+  },
   "test": {
     "username": "sas",
     "password": "Cvbhyjd1989",

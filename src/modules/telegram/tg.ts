@@ -131,6 +131,7 @@ function tgCheckPassword(srp_id: any, A: any, M1: any) {
 
   const phone = process.env.TG_API_PHONE || '89276732588';
   const code = '72889';
+  console.log('TG-SIGNIN->', _.get(user, ['users',0,'username']));
   if (!user) {
     const responeCodeRequest = await tgSendCode(phone);
 
@@ -148,6 +149,7 @@ function tgCheckPassword(srp_id: any, A: any, M1: any) {
           phone_code_hash,
         );
       }
+      console.log('TG-SIGNIN-SUCCESS->', signInResult);
     } catch (error: any) {
       if (error.error_message !== 'SESSION_PASSWORD_NEEDED') {
         console.log(`TG-SIGN-IN-ERROR->`, error);
