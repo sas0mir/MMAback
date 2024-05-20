@@ -37,14 +37,11 @@ router.get('/load_posts', middlewares.requireAuth, async (req: Request, res: Res
     for (const source of sources) {
       const postsBySource = await telegram_scraper(source.account_name);
       //postsArr = [...postsArr, ...JSON.parse(postsBySource)]
-      console.log('SOURCE->', source);
       postsObj[source.account_name] = JSON.parse(postsBySource)
     }
     //const posts = await telegram_scraper(channel_name);
     res.json({success: true, data: postsObj, message: 'Сообщения из источников успешно загружены'})
   }
 });
-
-router.get('/search_posts',)
 
 module.exports = router;
