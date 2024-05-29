@@ -3,6 +3,7 @@ const Users = require("../models/users");
 const Themes = require("../models/themes");
 const Sources = require("../models/sources");
 const Authors = require("../models/authors");
+const Journal = require("../models/journal");
 const middlewares = require("../middlewares");
 const {DataTypes} = require("sequelize");
 import { telegram_scraper } from "telegram-scraper";
@@ -17,10 +18,10 @@ interface SessionRequest extends Request {
 router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Response) => {
   const {user_id, author, source, platform} = req.body;
   let sourceExist = await Sources.findOne({
-    where: {name: source}
+    where: {name: source.title}
   }).catch((err: any) => {
     console.log('SOURCE-EXIST-ERR->', err);
-    return res.status(400).json({success: false, message: err})
+    return res.status(400).json({success: false, message: `Ошибка при проверке наличия источника в базе: ${err}`})
   })
   // let authorExist = await Authors.findOne({
   //   where: {name: author}
@@ -31,41 +32,46 @@ router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Res
   if(sourceExist) {
     return res.status(400).json({success: false, message: "Источник уже в базе данных"})
   }
+  if(!platform) {
+    return res.status(400).json({success: false, message: "Поле платформа не передано для сохранения"})
+  }
   if(!sourceExist) {
+    //+расчет рейтинга сюда
     if(platform === '1') {
-      const check_channel = await telegram_scraper(source);
-      const check_ch_res = check_channel === 'Unknown telegram channel' ? check_channel : JSON.parse(check_channel);
-      if(check_ch_res === 'Unknown telegram channel') {
-        return res.status(400).json({success: false, message: "Телеграм канал с таким юзернеймом не существует"})
-      } else {
-        const channel_name = check_ch_res[0].user_name;
-        sourceExist = await Sources.create({
-            id: DataTypes.DEFAULT,
-            name: channel_name,
-            context: null,
-            rating: 0,
-            platform: platform,
-            account_name: source,
-            createdAt: new Date()
-        }).catch((err: any) => {
-            console.log('SOURCE-CREATE-ERR->', err);
-            return res.status(400).json({success: false, message: err})
-        })
+      sourceExist = await Sources.create({
+          id: DataTypes.DEFAULT,
+          name: source.title,
+          context: source,
+          rating: 0,
+          platform: platform,
+          account_name: source.username,
+          createdAt: new Date()
+      }).catch((err: any) => {
+          console.log('SOURCE-CREATE-ERR->', err);
+          return res.status(400).json({success: false, message: err})
+      })
 
-        const userData = await Users.findOne({
-          where: { id: user_id }
-        }).catch(
-          (err: any) => {
-            console.log("Error: ", err);
-          }
-        );
+      const userData = await Users.findOne({
+        where: { id: user_id }
+      }).catch(
+        (err: any) => {
+          console.log("Error: ", err);
+        }
+      );
 
-        let newUserSources = userData.sources || [];
-        newUserSources.push(sourceExist.id)
-        await userData.changed('sources', true);
-        await userData.update({sources: newUserSources});
-        await userData.save();
-      }
+      let newUserSources = userData.sources || [];
+      newUserSources.push(sourceExist.id)
+      await userData.changed('sources', true);
+      await userData.update({sources: newUserSources});
+      await userData.save();
+
+      //журналирование
+      await Journal.create({
+        id: DataTypes.DEFAULT,
+        user: user_id,
+        data: {"message": `Вы подписались на источник ${source.name}`},
+        createdAt: new Date()
+      })
     }
   }
   res.json({success: true, data: sourceExist, message: 'Источник успешно добавлен'})

@@ -5,6 +5,7 @@ const Subscriptions = require("../models/subscriptions");
 const Themes = require("../models/themes");
 const Sources = require("../models/sources");
 const Platform = require("../models/platforms");
+const Journal = require("../models/journal");
 const middlewares = require("../middlewares");
 import {get} from 'lodash'
 
@@ -22,7 +23,8 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     subscription: null,
     platforms: null,
     themes: null,
-    sources: null
+    sources: null,
+    journal: null
   };
 
   const user = await Users.findOne({
@@ -49,6 +51,7 @@ router.get("/userdata", middlewares.requireAuth, async (req: Request, res: Respo
     responseData.organization = await Organizations.findOne({where: {id: user.org}});
     responseData.subscription = await Subscriptions.findOne({where: {id: user.subscription_type}});
     responseData.platforms = await Platform.findAll();
+    responseData.journal = await Journal.findAll({where: {user: req.query.user_id}, limit: 50})
 
     res.json({success: true, data: responseData, message: 'Данные пользователя успешно загружены'})
   }
