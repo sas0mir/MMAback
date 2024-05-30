@@ -6,7 +6,7 @@ const Authors = require("../models/authors");
 const Journal = require("../models/journal");
 const middlewares = require("../middlewares");
 const {DataTypes} = require("sequelize");
-import { telegram_scraper } from "telegram-scraper";
+const mtproto = require('../modules/telegram/tg');
 import {get} from 'lodash'
 
 const router = express.Router();
@@ -58,6 +58,20 @@ router.post("/subscribe", middlewares.requireAuth, async (req: Request, res: Res
           console.log("Error: ", err);
         }
       );
+
+      try {
+        if (mtproto.mtproto && !!mtproto.mtproto?.call) {
+          sourceExist.subscribed = await mtproto.mtproto.call('channels.joinChannel',
+            { channel: source.username}
+          )
+
+          sourceExist.fullChannelInfo = await mtproto.mtproto.call('channels.getFullChannel',
+            { channel: source.username}
+          )
+        }
+      } catch (err) {
+        console.log('TG-CHANNEL-SUBSCRIBE-ERROR->', err);
+      }
 
       let newUserSources = userData.sources || [];
       newUserSources.push(sourceExist.id)
