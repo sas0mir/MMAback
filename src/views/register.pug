@@ -1,0 +1,30 @@
+head
+  meta(charset='utf-8')
+  title= title
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+
+  body
+    .modal-dialog
+        .modal-content
+          // Modal Header
+          .modal-header
+            button.close(type="button", data-dismiss="modal")
+              span(aria-hidden="true") ×
+              span.sr-only Close
+            h4#myModalLabel.modal-title
+              | Регистрация
+          // Modal Body
+          .modal-body
+            form(role='form' method='POST' action='/api/register')
+              div.form-group
+                label(for='name') Имя:
+                input#name.form-control(type='text', placeholder='name' name='name')
+              div.form-group
+                label(for='email') Почта:
+                input#email.form-control(type='email', placeholder='name@email.com' name='email')
+              div.form-group
+                label(for='password') Создать пароль:
+                input#password.form-control(type='password', placeholder='пароль' name='password')
+              button.btn.btn-primary(type="submit", name="asdf")= message
+              button.btn.btn-default(type="button", data-dismiss="modal")
+                | Закрыть
