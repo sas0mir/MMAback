@@ -6,12 +6,12 @@
     API-KEY=1
     API_KEY_BOT=2
 
-    TELEGRAM_BOT_KEY=6754440846:AAHcIv7xHUE7pGheh9eF-cmgb0xX49HsrQI
+    TELEGRAM_BOT_KEY=...your key
     TELEGRAM_API_URL=https://api.telegram.org/bot
 
-    TG_API_PHONE=89276732588
-    TG_API_ID=27906368
-    TG_API_HASH=3330b002bc5d3552caecacd2cd4833f1
+    TG_API_PHONE=...your phone
+    TG_API_ID=...your tg api id
+    TG_API_HASH=...your hash
 
     JWT_SECRET=123
     SESSION_SECRET=smianal
@@ -19,8 +19,8 @@
     DB_HOST=192.168.3.26
     DB_PORT=5432
     DB_NAME=smianal
-    DB_USER=sas
-    DB_PASS=Cvbhyjd1989
+    DB_USER=###
+    DB_PASS=####
 
     FRONT_URL=localhost:8080
 
