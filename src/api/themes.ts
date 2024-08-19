@@ -8,6 +8,7 @@ const middlewares = require("../middlewares");
 const {DataTypes} = require("sequelize");
 const mtproto = require('../modules/telegram/tg');
 import {get} from 'lodash'
+import { analyze_topics } from "../helpers/algoritm";
 
 const router = express.Router();
 
