@@ -1,5 +1,6 @@
 import _ from 'lodash'
 const mtproto = require('../modules/telegram/tg');
+//import { ThemeType } from './constants';
 
 function calculate_topic_score(view_count: number, mention_count: number, engagement: number) {
     const view_weight = 0.4
@@ -9,18 +10,7 @@ function calculate_topic_score(view_count: number, mention_count: number, engage
     return score
 }
 
-export async function analyze_theme(theme_name: String) {
-    console.log('TEST-1->', theme_name);
-    const themeSearhData = await mtproto.mtproto.call('messages.searchGlobal',
-        {
-            q: theme_name,
-            broadcasts_only: true,
-            limit: 25
-        }
-    )
-    console.log("GLOBAL-->", themeSearhData);
-    return themeSearhData
-}
+//make function for taking most used words from theme messages data
 
 export function analyze_topics(channel_data: any, topics: any) {
     let topic_scores = {}

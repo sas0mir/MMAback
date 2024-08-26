@@ -5,7 +5,7 @@ import {get} from 'lodash';
 const {handler} = require("../controller/index");
 const mtproto = require('../modules/telegram/tg');
 //const analyze_theme = require('../helpers/algoritm');
-import { analyze_theme } from "../helpers/algoritm";
+import { ThemeType } from "../helpers/constants";
 
 const router = express.Router();
 
@@ -38,8 +38,19 @@ router.post("/telegram-contacts-search", async (req: Request, res: Response) => 
 
 router.post("/telegram-search-global", async (req: Request, res: Response) => {
   const { query, limit = 10 } = req.body;
+  const max_date = new Date();
   try {
-    const searchResult = await analyze_theme(query)
+    //for higher subscriptions can make broadcastsOnly false and limit 50
+    const searchResult = await mtproto.mtproto.call('messages.searchGlobal',
+      {
+          q: query,
+          offsetDate: Math.floor(Date.now() / 1000),
+          offset_peer: {_: 'inputPeerEmpty'},
+          offset_id: 0,
+          broadcasts_only: true,
+          limit: 25
+      }
+  )
     console.log('TEST-0->', !!searchResult, searchResult);
     if (searchResult) res.json({success: true, data: searchResult, message: `Поиск ${query} успешен`})
   } catch(err) {
